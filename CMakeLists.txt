@@ -32,6 +32,8 @@ generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 add_definitions(-std=c++11)
 add_definitions(-g -pg)
 
+catkin_package()
+
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
