@@ -122,6 +122,7 @@ namespace openface2_ros
       const auto base_path = package::getPath("openface2_ros");
 
       pnh.param<bool>("publish_viz", publish_viz_, false);
+      pnh.param<bool>("show_viz", show_viz_, false);
 
       if(!pnh.getParam("max_faces", max_faces_)) pnh.param<int>("max_faces", max_faces_, 1);
       if(max_faces_ <= 0) throw invalid_argument("~max_faces must be > 0");
@@ -314,7 +315,7 @@ namespace openface2_ros
   	    fps_tracker.AddFrame();
 
         decltype(cv_ptr_rgb->image) viz_img = cv_ptr_rgb->image.clone();
-        if(publish_viz_) visualizer.SetImage(viz_img, fx, fy, cx, cy);
+        if(show_viz_ || publish_viz_) visualizer.SetImage(viz_img, fx, fy, cx, cy);
 
         Faces faces;
         faces.header.frame_id = img->header.frame_id;
@@ -480,7 +481,7 @@ namespace openface2_ros
             		if(p.y > max.y) max.y = p.y;
           		}
 
-          		if(publish_viz_)
+          		if(publish_viz_ || show_viz_)
           		{ 
             		//visualizer.SetObservationFaceAlign(sim_warped_img);
             		//visualizer.SetObservationHOG(hog_descriptor, num_hog_rows, num_hog_cols);
@@ -497,14 +498,20 @@ namespace openface2_ros
   		faces.count = (int)faces.faces.size();
   		faces_pub_.publish(faces);
 
-      	if(publish_viz_)
+      	if(publish_viz_ || show_viz_)
       	{ 
         	visualizer.SetFps(fps_tracker.GetFPS());
-        	visualizer.ShowObservation();
-        	cv::waitKey(20);
-        	auto viz_msg = cv_bridge::CvImage(img->header, "bgr8", visualizer.GetVisImage()).toImageMsg();
-        	viz_pub_.publish(viz_msg);
-        }
+			if(show_viz_)
+			{
+				visualizer.ShowObservation();
+				cv::waitKey(20);
+			}
+			if(publish_viz_)
+			{
+				auto viz_msg = cv_bridge::CvImage(img->header, "bgr8", visualizer.GetVisImage()).toImageMsg();
+				viz_pub_.publish(viz_msg);
+			}
+		}
     }
 
     tf2_ros::TransformBroadcaster tf_br_;
@@ -533,6 +540,7 @@ namespace openface2_ros
 
     bool publish_viz_;
     image_transport::Publisher viz_pub_;
+	bool show_viz_;
   };
 }
 
