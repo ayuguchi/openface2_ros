@@ -14,7 +14,8 @@ This is a ROS wrapper for OpenFace 2.1.0. In particular, given an image of a fac
   * `~image_topic` - The topic the image is provided on (e.g. `/usb_cam/image_raw`).
 
 ### Optional
-  * `~publish_viz` - Set to `true` to publish a debug visualization (default: `false`).
+  * `~publish_viz` - Set to `true` to publish a face detection result (default: `true`).
+  * `~show_viz` - Set to `true` to a debug visualization (default: `false`).
 
 ## Installation
 
@@ -22,7 +23,7 @@ This is a ROS wrapper for OpenFace 2.1.0. In particular, given an image of a fac
 * Download model : [Model download · TadasBaltrusaitis/OpenFace Wiki · GitHub](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Model-download)
 * Install OpenFace, following this instruction : [Unix Installation · TadasBaltrusaitis/OpenFace Wiki · GitHub](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Unix-Installation) (don't forget to sudo make install at the end)
 * Download [openface2_ros](https://github.com/ditoec/openface_ros) to your catkin src folder and `cd .. && catkin make`
-* Clone [`usb_cam` ros node](http://wiki.ros.org/usb_cam) or other ros node of your choice for interfacing with USB camera
+* Install `usb_cam` ros node: `apt-get install ros-<distoro>-usb-cam`
 
 ### Running
 
@@ -84,3 +85,4 @@ float64 intensity
 * Accommodate major changes in openface 2.0.6 (functions and classes naming & grouping)
 * Add eye gaze angle in the Face message type
 * Add Faces message type (an array of Face message type) in order to accommodate the new multiple face detection in openface 2.0
+* Add the new publisher `~show_viz`
