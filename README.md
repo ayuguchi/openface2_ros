@@ -25,6 +25,14 @@ This is a ROS wrapper for OpenFace 2.1.0. In particular, given an image of a fac
 * Download [openface2_ros](https://github.com/ditoec/openface_ros) to your catkin src folder and `cd .. && catkin make`
 * Install `usb_cam` ros node: `apt-get install ros-<distoro>-usb-cam`
 
+
+The following information is the required versions of all libraries.
+```
+OpenFace: 2.1.0
+opencv: 3.4.0
+dlib: 19.13
+```
+
 ### Running
 
 * `roscore`
