@@ -1,0 +1,24 @@
+<launch>
+　<node pkg="usb_cam" type="usb_cam_node" name="usb_cam_node" >
+
+      <param name="video_device" value="/dev/video0" />
+      <param name="image_width" value="640" />
+      <param name="image_height" value="480" />
+      <param name="camera_info_url" value="file://root/catkin_ws/data/usb_cam/head_camera.yaml" />
+      <param name="pixel_format" value="mjpeg" />
+
+  </node>
+
+  <node name="image_proc" pkg="image_proc" type="image_proc" ns="usb_cam_node"/>
+
+  <arg name="image_topic" default="/usb_cam/image_raw" />
+  <arg name="publish_viz" default="true" />
+  <arg name="show_viz" default="false" />
+
+  <node pkg="openface2_ros" name="openface2_ros" type="openface2_ros" output="screen">
+      <param name="image_topic" value="$(arg image_topic)" type="str"/>
+      <param name="publish_viz" value="$(arg publish_viz)" type="bool"/>
+      <param name="show_viz" value="$(arg show_viz)" type="bool"/>
+  </node>
+
+</launch>
