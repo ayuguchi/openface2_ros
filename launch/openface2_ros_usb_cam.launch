@@ -1,4 +1,5 @@
 <launch>
+
 　<node pkg="usb_cam" type="usb_cam_node" name="usb_cam_node" >
 
       <param name="video_device" value="/dev/video0" />
@@ -9,9 +10,11 @@
 
   </node>
 
+  <!--
   <node name="image_proc" pkg="image_proc" type="image_proc" ns="usb_cam_node"/>
+  -->
 
-  <arg name="image_topic" default="/usb_cam/image_raw" />
+  <arg name="image_topic" default="/usb_cam_node/image_raw" />
   <arg name="publish_viz" default="true" />
   <arg name="show_viz" default="false" />
 
